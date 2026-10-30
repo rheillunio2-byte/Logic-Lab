@@ -11,24 +11,24 @@ Add screenshots of your application to the `images/` folder and update the filen
 <table>
   <tr>
     <td align="center">
-      <img src="images/Circuit-Builder.png" width="400" alt="LogicLab Circuit Builder">
+      <img src="images/Circuit-Builder.PNG" width="400" alt="LogicLab Circuit Builder">
       <br>
       <b>Circuit Builder</b>
     </td>
     <td align="center">
-      <img src="images/Truth-Table.png" width="400" alt="LogicLab Truth Table">
+      <img src="images/Truth-Table.PNG" width="400" alt="LogicLab Truth Table">
       <br>
       <b>Truth Table</b>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="images/Learning-Guide.png" width="400" alt="LogicLab Learning Guide">
+      <img src="images/Learning-Guide.PNG" width="400" alt="LogicLab Learning Guide">
       <br>
       <b>Learning Guide</b>
     </td>
     <td align="center">
-      <img src="images/Component-Inspector.png" width="400" alt="LogicLab Component Inspector">
+      <img src="images/Component-Inspector.PNG" width="400" alt="LogicLab Component Inspector">
       <br>
       <b>Component Inspector</b>
     </td>
