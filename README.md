@@ -6,8 +6,6 @@ An **interactive digital logic simulator** built with React, JavaScript, and Vit
 
 # 🖥️ Application Preview
 
-Add screenshots of your application to the `images/` folder and update the filenames below when they are available.
-
 <table>
   <tr>
     <td align="center">
