@@ -306,10 +306,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribu
 
 # 📄 License
 
-No license has been specified for this repository yet.
-
-A suitable open-source license should be selected and included in a `LICENSE` file before the project is distributed under open-source licensing terms.
-
----
-
-**LogicLab — Learn, Build, and Explore Digital Logic.**
+This project is licensed under the **MIT License**. See the [LICENSE](https://github.com/rheillunio2-byte/Logic-Lab?tab=MIT-1-ov-file) file for more details.
