@@ -1,309 +1,138 @@
 # ⚡ LogicLab — Interactive Digital Logic Studio
 
-An **interactive digital logic simulator** built with React, JavaScript, and Vite. LogicLab allows students and beginners to explore digital logic by building circuits, connecting logic gates, changing input signals, and generating truth tables.
+LogicLab is a browser-based digital logic learning and simulation studio built with **React, JavaScript and Vite**. Build circuits on a drag-and-drop canvas, wire components together, watch signals propagate, generate truth and state tables, simplify Boolean expressions, solve Karnaugh maps, study 14 short lessons, and practise with challenges that are graded by simulating your circuit.
+
+Everything runs locally in the browser. There is no backend, no account system and no tracking; saved circuits stay in `localStorage`.
+
+> **Screenshots:** run `npm run dev` to see the current interface. The screenshots shipped in `images/` come from LogicLab v1.0 and no longer match the interface, so they are not embedded here. Replace them with fresh captures of v2.0 when publishing.
 
 ---
 
-# 🖥️ Application Preview
+## ✨ Features
 
-<table>
-  <tr>
-    <td align="center">
-      <img src="images/Circuit-Builder.PNG" width="400" alt="LogicLab Circuit Builder">
-      <br>
-      <b>Circuit Builder</b>
-    </td>
-    <td align="center">
-      <img src="images/Truth-Table.PNG" width="400" alt="LogicLab Truth Table">
-      <br>
-      <b>Truth Table</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="images/Learning-Guide.PNG" width="400" alt="LogicLab Learning Guide">
-      <br>
-      <b>Learning Guide</b>
-    </td>
-    <td align="center">
-      <img src="images/Component-Inspector.PNG" width="400" alt="LogicLab Component Inspector">
-      <br>
-      <b>Component Inspector</b>
-    </td>
-  </tr>
-</table>
+**Circuit Builder**
+- Drag components from a searchable library (or click to add), move them, box-select (Shift + drag), duplicate, rename and delete.
+- Click-or-drag wiring from output pins to input pins, with HIGH / LOW / unknown wire colours and live values.
+- Connection validation with explanatory messages: one driver per input, output-to-input only, and no combinational feedback loops.
+- Zoom, pan, fit to screen, grid snapping, undo / redo, select all, nudge with arrow keys, keyboard shortcuts, and a confirmed "clear circuit".
+- Properties inspector (pin table, gate input count, bit widths, switch state, stored flip-flop state).
+- Simulation controls: pulse, half-step, continuous run at 1–8 Hz, reset, and a step-based timing diagram.
 
----
+**Simulation engine** (`src/engine/`, pure JavaScript, unit tested)
+- Three-valued signals (0, 1, unknown): unconnected inputs are never silently LOW, and warnings name the pin.
+- Dependency-ordered evaluation, cycle detection, bounded settling (it reports "did not settle" instead of freezing).
+- Rising-edge detection, simultaneous sampling of all flip-flops (current state vs next state), asynchronous reset.
 
-# 📌 Overview
+**Truth tables and analysis**
+- Truth tables for combinational circuits (multiple outputs, up to 10 inputs), CSV export and copy.
+- Circuits with memory get a **state-transition table** instead of a misleading static truth table.
+- Boolean Algebra workspace: safe expression parser (no `eval`), evaluation, step-by-step algebraic simplification, exact minimal SOP / POS (Quine–McCluskey), equivalence checker with counterexamples, and truth table → expression.
+- Karnaugh map solver for 2, 3 and 4 variables: Gray-code layout, minterms / maxterms / don't-cares, wrap-around groups, explanation of the grouping.
 
-LogicLab is an educational digital logic simulator designed to make learning Boolean algebra and digital circuits more interactive and accessible.
+**Learning**
+- Learning Center with 14 lessons (objectives, explanations, formulas, truth tables, interactive demos, knowledge checks, common mistakes).
+- 13 challenges (Beginner → Advanced) graded on behaviour with hints and specific feedback.
+- 12 ready-made example circuits, each loadable into the builder.
 
-The application provides a visual environment where users can create logic circuits, configure component connections, manipulate binary inputs, and observe the resulting outputs in real time.
+**Workspace**
+- Autosaved workspace, circuit library (save, load, rename, duplicate, delete), JSON export / import with schema version and validation, share links (circuit encoded in the URL, nothing uploaded).
+- Dark / light theme, reduced-motion option, responsive layout, focus indicators, tooltips, confirmation dialogs, toasts, error boundary.
 
-LogicLab combines circuit simulation, automatic truth-table generation, and introductory learning materials in one application.
+## 🧩 Supported components
 
-It is designed primarily for students, beginners, and individuals interested in understanding the fundamentals of digital logic and computer hardware.
+| Category | Components |
+|---|---|
+| Logic gates | AND, OR, NAND, NOR, XOR, XNOR (2–8 inputs), NOT, Buffer |
+| Inputs | Switch, Constant HIGH, Constant LOW, Clock |
+| Outputs | LED, Binary output (1–8 bits), Hex display, 7-segment display |
+| Sequential | SR latch, D latch, D flip-flop, JK flip-flop, T flip-flop (optional async RST) |
+| Combinational | Multiplexer, Demultiplexer (2 or 4 way), Decoder (1–3 bits, optional EN), 4-to-2 priority encoder, Half adder, Full adder, 2-bit comparator |
 
----
+Binary counters and shift registers are provided as example circuits built from flip-flops (see the Library).
 
-# ✨ Features
+## 🛠️ Technology stack
 
-- ⚡ **Interactive Circuit Builder** — Create and configure digital logic circuits.
-- 🔌 **Multiple Logic Gates** — Supports AND, OR, NOT, and XOR gates.
-- 🔢 **Binary Input Controls** — Toggle input signals between LOW (0) and HIGH (1).
-- 📤 **Output Components** — Display the evaluated output of connected circuits.
-- 🔍 **Component Inspector** — Edit component names and configure connections.
-- 🔄 **Real-Time Circuit Evaluation** — Automatically update circuit results when inputs or connections change.
-- 📊 **Automatic Truth Table Generation** — Generate possible input combinations and their corresponding outputs.
-- 📥 **CSV Export** — Download generated truth tables in CSV format.
-- ⏱️ **D Flip-Flop Simulation** — Simulate a positive-edge-triggered D flip-flop using a manual clock pulse.
-- 📖 **Learning Guide** — Explore descriptions and Boolean expressions of supported logic components.
-- 🧭 **Separate Navigation Pages** — Access Circuit Builder, Truth Table, and Learning Guide through the sidebar.
-- 🌙 **Dark-Themed Interface** — Clean and modern interface designed for an interactive learning experience.
-- 📱 **Responsive Layout** — Designed to accommodate different screen sizes.
+React 18, JavaScript (ES modules), Vite 6, plain CSS (design tokens, dark/light themes), Lucide React icons. Tests use Node's built-in test runner, so **no dependencies were added** in v2.0.
 
----
-
-# 🛠️ Technologies Used
-
-## Programming Language
-- JavaScript
-- HTML5
-- CSS3
-
-## Front-End Framework
-- React
-- Vite
-
-## Icons and Interface
-- Lucide React
-
-## Development Tools
-- Visual Studio Code
-- Node.js
-- npm
-- Git
-- GitHub
-
----
-
-# 🚀 Installation and Setup
-
-Follow these instructions to install and run LogicLab on your local machine.
-
-## 1. Clone the Repository
-
-Replace `your-username` with your GitHub username.
+## 🚀 Getting started
 
 ```bash
-git clone https://github.com/your-username/LogicLab.git
-```
-
-## 2. Navigate to the Project Folder
-
-```bash
-cd LogicLab
-```
-
-## 3. Install Dependencies
-
-```bash
+git clone https://github.com/rheillunio2-byte/Logic-Lab.git
+cd Logic-Lab
 npm install
+npm run dev        # development server
+npm run build      # production build in dist/
+npm run preview    # serve the production build
+npm test           # run the automated tests
 ```
 
-**Windows PowerShell users:** If you encounter an error stating that `npm.ps1` cannot be loaded because script execution is disabled, use:
+Requires Node.js 20 or newer.
 
-```powershell
-npm.cmd install
+### Deploying to Vercel
+Import the repository in Vercel and keep the detected defaults (framework: Vite, build command `npm run build`, output directory `dist`). Navigation uses URL hashes (`#/builder`), so no rewrite rules are needed.
+
+## 📖 Usage guide
+
+1. **Circuit Builder:** add two Switches, an AND gate and an LED. Drag from a gate's output pin (right side) to an input pin (left side). Click a switch to toggle it. Click a wire or component to select it and press Delete to remove it.
+2. **Sequential circuits:** add a Clock and a D flip-flop, wire `CLK`, then use **Pulse** (a full clock cycle) or **Toggle** (a half cycle) under the canvas. The timing diagram records every step.
+3. **Truth Table:** open the page to get a table for the circuit currently on the canvas; export it as CSV.
+4. **Boolean Algebra / Karnaugh Map:** type `A'B + AB'`, `(A NAND B) NOR C`, etc. Notation help is on the page.
+5. **Challenges:** build the circuit, name switches / LEDs after the challenge inputs and outputs (or create them in that order) and press **Check my circuit**.
+6. **Library:** save, rename, export and import circuits; load any example.
+
+Keyboard shortcuts in the editor: `Del` delete, `Ctrl+A` select all, `Ctrl+Z` / `Ctrl+Y` undo / redo, `Ctrl+D` duplicate, arrows nudge, `+` / `-` zoom, `F` fit, `G` snap, `Esc` cancel.
+
+## 🔬 Simulation conventions
+
+- Signals are `0`, `1` or `X` (unknown). Optional pins (`RST`, decoder `EN`) have documented defaults; every other unconnected input is `X`.
+- Sequential elements power on with `Q = 0`. Edge-triggered parts update on a rising clock edge only.
+- SR latch with `S = R = 1` is flagged as forbidden and its state is unknown after release.
+- Combinational feedback loops are refused; use a latch or flip-flop component for memory.
+
+## 🧪 Testing
+
+`npm test` runs 50 tests under `tests/` covering: all gates and multi-input gates, wiring rules, cycle detection, signal propagation, flip-flop / latch behaviour and clock edges, truth and state tables, JSON import / export (including malformed and hostile files), the Boolean parser and simplifier (including randomised equivalence checks of every simplification step), Quine–McCluskey, Karnaugh-map layout and groups, all example circuits and a reference solution for every challenge.
+
+## 📂 Project structure
+
+```
+src/
+  engine/       components, circuit, simulator, truthTable, booleanParser,
+                simplifier, minimizer, karnaugh, challenges        (no React)
+  components/   circuit/ (canvas, palette, inspector, sim controls, timing),
+                layout/, common/, truth-table/, learning/
+  pages/        Dashboard, CircuitBuilder, TruthTable, BooleanAlgebra, KarnaughMap,
+                LearningCenter, Challenges, CircuitLibrary, Settings, About
+  state/        WorkspaceContext (history, autosave, library, settings, toasts)
+  hooks/        useSimulation, useHistory, useHashRoute
+  data/         examples, challenges, lessons
+  utils/        storage, download, share
+tests/          node:test suites
 ```
 
-This allows you to install dependencies without changing your PowerShell execution policy.
+## ⚠️ Known limitations
 
-## 4. Run the Development Server
+- Feedback built from plain gates (for example a latch made of two cross-coupled NOR gates) is rejected; use the latch components.
+- The simulator is logical, not electrical: there are no propagation delays or glitches, and the timing diagram shows discrete simulation steps rather than nanoseconds.
+- Wiring is pointer-based (mouse or touch). Selection, deletion, duplication, nudging and zoom work from the keyboard, but creating wires does not yet.
+- Truth tables are limited to 10 inputs, state tables to 6 memory elements and 6 switches, minimisation to 8 variables, K-maps to 4 variables.
+- Pinch-to-zoom is not implemented (use the zoom buttons or the wheel).
+- No ESLint configuration is included.
 
-```bash
-npm run dev
-```
+## 🔮 Roadmap
 
-For Windows PowerShell, if necessary:
+Keyboard-operable wiring, multi-bit buses, user-defined sub-circuits, propagation-delay simulation, a built-in 4-bit counter / register component, more lessons and challenges.
 
-```powershell
-npm.cmd run dev
-```
+## 🤝 Contributing
 
-Vite will provide a local development URL, usually:
+Please read [CONTRIBUTING.md](CONTRIBUTING.md). Run `npm test` and `npm run build` before opening a pull request.
 
-```text
-http://localhost:5173/
-```
+## 👨‍💻 Developer
 
-Open the displayed URL in your browser to access LogicLab.
+**Rheil Evans T. Lunio (RETL)** — Computer Science student, University of Science and Technology of Southern Philippines (USTP), Cagayan de Oro.
 
----
+Suggested GitHub topics: `digital-logic`, `logic-gates`, `circuit-simulator`, `boolean-algebra`, `karnaugh-map`, `truth-table`, `flip-flop`, `react`, `vite`, `education`.
 
-# 📖 How to Use LogicLab
+## 📄 License
 
-## 1. Circuit Builder
-
-The Circuit Builder allows users to create and configure digital logic circuits.
-
-1. Open the Circuit Builder page from the sidebar.
-2. Select a component from the component toolbar.
-3. Add INPUT, AND, OR, NOT, XOR, D-FF, or OUTPUT components.
-4. Select a component from the circuit list.
-5. Use the Component Inspector to rename components and configure their connections.
-6. Toggle input signals between LOW (0) and HIGH (1).
-7. Observe how the circuit outputs change automatically.
-
-A starter circuit is provided when the application opens, consisting of two inputs connected to an AND gate and an output component.
-
-## 2. Truth Table
-
-The Truth Table page displays all possible combinations of input signals and their corresponding output values.
-
-1. Open the Truth Table page from the sidebar.
-2. Review the input and output variables.
-3. Examine the generated combinations.
-4. Use the Export Table feature to download the results as a CSV file.
-
-The current implementation supports up to 8 input variables, producing a maximum of 256 combinations.
-
-## 3. Learning Guide
-
-The Learning Guide provides introductory information about the supported digital logic components.
-
-Users can review:
-- AND Gate
-- OR Gate
-- NOT Gate
-- XOR Gate
-- D Flip-Flop
-
-Each component includes a description of its logical behavior and corresponding Boolean expression where applicable.
-
-## 4. D Flip-Flop Simulation
-
-LogicLab includes a simplified D flip-flop simulation.
-
-1. Add a D-FF component.
-2. Select the component.
-3. Connect a source to its D input.
-4. Click the Pulse Clock button.
-5. Observe the stored Q output.
-
-The D flip-flop captures its D input on a rising clock edge and maintains its stored state between clock pulses.
-
----
-
-# 🧠 Supported Logic Components
-
-| Component | Description |
-|---|---|
-| INPUT | Provides a manually controlled binary signal. |
-| AND | Produces HIGH when all inputs are HIGH. |
-| OR | Produces HIGH when at least one input is HIGH. |
-| NOT | Inverts the input signal. |
-| XOR | Produces HIGH when its two inputs have different values. |
-| D-FF | Stores one bit and captures its D input on a rising clock edge. |
-| OUTPUT | Displays the signal received from a connected source. |
-
----
-
-# ⚙️ Core Modules
-
-- **Circuit Builder:** Provides the interface for adding, selecting, and configuring circuit components.
-- **Logic Evaluator:** Evaluates Boolean operations and determines circuit outputs.
-- **Truth Table Generator:** Produces possible input combinations and their corresponding outputs.
-- **Component Inspector:** Allows users to configure component labels, inputs, and connections.
-- **D Flip-Flop Controller:** Handles manual clock pulses and stored output states.
-- **CSV Export:** Allows users to download generated truth-table data.
-- **Learning Guide:** Provides explanations of supported digital logic components.
-
----
-
-# 📂 Project Structure
-
-```text
-LogicLab/
-│
-├── index.html
-├── package.json
-├── vite.config.js
-├── README.md
-├── CONTRIBUTING.md
-│
-└── src/
-    ├── main.jsx
-    ├── App.jsx
-    ├── logic.js
-    └── styles.css
-```
-
-### File Descriptions
-
-| File | Purpose |
-|---|---|
-| `index.html` | Main HTML entry point. |
-| `package.json` | Contains project dependencies and development scripts. |
-| `vite.config.js` | Configures the Vite development environment. |
-| `src/main.jsx` | Initializes and renders the React application. |
-| `src/App.jsx` | Contains the main interface, navigation, and application features. |
-| `src/logic.js` | Handles Boolean gate evaluation, circuit evaluation, and truth-table generation. |
-| `src/styles.css` | Contains the application's styling and responsive layout. |
-
----
-
-# ⚠️ Limitations
-
-Although LogicLab provides an interactive environment for exploring digital logic, some limitations apply:
-
-- Truth-table generation is limited to 8 input variables.
-- Truth tables are unavailable for circuits containing D flip-flops because sequential circuits depend on stored states and clock history.
-- Unconnected gate inputs are treated as LOW (0).
-- The D flip-flop uses a simplified positive-edge-triggered simulation.
-- The simulator does not model physical electrical characteristics, propagation delays, setup time, or hold time.
-- The application focuses on logical behavior rather than physical hardware implementation.
-
----
-
-# 🔮 Future Improvements
-
-Possible future enhancements include:
-
-- Additional logic gates such as NAND, NOR, and XNOR.
-- Drag-and-drop circuit construction.
-- Visual connecting wires between components.
-- Circuit saving and loading functionality.
-- Additional sequential components, including JK and T flip-flops.
-- Timing diagrams and clock waveform visualization.
-- Multi-bit logic components.
-- Interactive quizzes and learning activities.
-- Expanded export options.
-- Automated unit and integration testing.
-
-These are proposed improvements and are not necessarily available in the current version.
-
----
-
-# 👨‍💻 Developer
-
-**Rheil Evans T. Lunio**
-
-Computer Science Student
-
-University of Science and Technology of Southern Philippines (USTP)
-
----
-
-# 🤝 Contributing
-
-Contributions, suggestions, bug reports, and feature improvements are welcome.
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to LogicLab.
-
----
-
-# 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](https://github.com/rheillunio2-byte/Logic-Lab?tab=MIT-1-ov-file) file for more details.
+MIT License. See [LICENSE](LICENSE).
