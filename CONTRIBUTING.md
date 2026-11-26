@@ -73,6 +73,21 @@ npm.cmd run dev
 
 Open the local URL provided by Vite in your browser.
 
+### Project Architecture
+
+```
+src/
+  engine/        Pure logic: components, circuit model, simulator, truth tables,
+                 Boolean parser, simplifier, Quine–McCluskey, Karnaugh maps, challenge grader
+  components/    React UI (circuit canvas, palette, inspector, layout, common dialogs, ...)
+  pages/         One file per sidebar page
+  state/         Workspace context (history, autosave, library, settings, toasts)
+  hooks/         useSimulation, useHistory, useHashRoute
+  data/          Examples, challenges, lessons
+  utils/         localStorage, downloads, share links
+tests/           node:test suites for everything under src/engine and src/data
+```
+
 ### 5. Make Your Changes
 
 You may contribute by:
@@ -132,7 +147,13 @@ Make sure that:
 - D flip-flops capture their inputs when a clock pulse is applied.
 - Existing functionality has not been unintentionally broken.
 
-The current project does not include a dedicated automated testing command. If you introduce a testing framework, document its setup and commands.
+Run the automated tests (they use Node's built-in test runner, so no extra dependency is needed; Node 20+ is recommended):
+
+```bash
+npm test
+```
+
+The suite covers every gate, multi-input gates, wiring rules, feedback-loop detection, signal propagation, flip-flop and latch behaviour with clock-edge detection, truth and state tables, JSON import/export validation, the Boolean parser and simplifier, Quine–McCluskey minimisation, Karnaugh-map grouping, the example circuits and the challenge grader. Add a test whenever you change anything under `src/engine/` or `src/data/`.
 
 ### 7. Commit Your Changes
 
@@ -184,8 +205,9 @@ To keep LogicLab maintainable and reliable, please follow these practices:
 - Follow the existing project structure.
 - Avoid unnecessary dependencies.
 - Handle errors gracefully and provide useful feedback.
-- Keep Boolean logic evaluation in `src/logic.js` where practical.
-- Keep interface-related changes organized within the React components and stylesheet.
+- Keep simulation and logic code in `src/engine/` (pure JavaScript, no React imports) so it stays unit-testable.
+- Keep interface code in `src/components/` and `src/pages/`, and shared state in `src/state/`.
+- Lesson text lives in `src/data/lessons.js`, examples in `src/data/examples.js`, challenges in `src/data/challenges.js`.
 - Add tests for new functionality when practical.
 - Update documentation when features or setup instructions change.
 - Avoid modifying unrelated parts of the project.
@@ -198,7 +220,7 @@ LogicLab is intended to demonstrate digital logic behavior accurately within its
 
 When modifying or adding simulation functionality:
 
-- Represent binary signals consistently using `0` and `1`.
+- Represent signals consistently as `0`, `1` or `null` (unknown). Never silently treat `null` as `0`.
 - Ensure that logic gate behavior follows its correct Boolean operation.
 - Maintain consistent handling of unconnected inputs.
 - Preserve circuit cycle detection.
@@ -314,7 +336,8 @@ Report potentially serious security vulnerabilities privately to the project mai
 Before submitting a Pull Request, confirm the following:
 
 - [ ] The application starts successfully.
-- [ ] The production build completes successfully.
+- [ ] The production build completes successfully (`npm run build`).
+- [ ] `npm test` passes, with new tests for engine changes.
 - [ ] The changes work as intended.
 - [ ] Existing functionality has not been unintentionally broken.
 - [ ] Circuit evaluation has been checked when relevant.
